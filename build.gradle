@@ -12,6 +12,16 @@ def allureVersion = "2.13.9",
      selenideVersion = "5.20.1",
         junitVersion = "5.7.1"
 
+allure {
+    version = allureVersion
+    autoconfigure = true
+    aspectjweaver = true
+    configuration = "testImplementation"
+    useJUnit5 {
+        version = allureVersion
+    }
+}
+
 dependencies {
     testImplementation(
             "org.aspectj:aspectjweaver:1.9.6",
