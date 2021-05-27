@@ -3,6 +3,8 @@ package classwork;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.http.ContentType.JSON;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 
@@ -34,5 +36,21 @@ public class BookStoreTests {
                 .then()
                 .log().body()
                 .body("books", hasSize(greaterThan(0)));
+    }
+
+    @Test
+    void withSomePostTest(){
+        given()
+                .contentType(JSON)
+                .body("{ \"userName\": \"alex\", \"password\": \"W1_#zqwerty\" }")
+                .when()
+                .log().uri()
+                .log().body()
+                .post("https://demoqa.com/Account/v1/GenerateToken")
+                .then()
+                .log().body()
+                .body("status", is("Success"))
+                .body("result", is("User authorized successfully."));
+
     }
 }
