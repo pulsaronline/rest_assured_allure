@@ -1,4 +1,4 @@
-package classwork;
+package tests;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 import org.junit.jupiter.api.Test;
