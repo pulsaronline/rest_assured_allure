@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+import static filters.CustomLogFilter.customLogFilter;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.CoreMatchers.is;
@@ -55,7 +56,6 @@ public class BookStoreTests {
                 .log().body()
                 .body("status", is("Success"))
                 .body("result", is("User authorized successfully."));
-
     }
 
     @Test
@@ -76,6 +76,25 @@ public class BookStoreTests {
                 .log().body()
                 .body("status", is("Success"))
                 .body("result", is("User authorized successfully."));
+    }
 
+    @Test
+    void withCustomFilterTest(){
+        Map<String, Object> data = new HashMap<>();
+        data.put("userName", "alex");
+        data.put("password", "W1_#zqwerty");
+
+        given()
+                .contentType(JSON)
+                .filter(customLogFilter().withCustomTemplates())
+                .body(data)
+                .when()
+                .log().uri()
+                .log().body()
+                .post("https://demoqa.com/Account/v1/GenerateToken")
+                .then()
+                .log().body()
+                .body("status", is("Success"))
+                .body("result", is("User authorized successfully."));
     }
 }
