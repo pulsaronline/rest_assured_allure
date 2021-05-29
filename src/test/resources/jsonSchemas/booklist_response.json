@@ -13,7 +13,7 @@
       "title": "Books",
       "type": "array",
       "default": [],
-      "items":{
+      "items": {
         "$id": "#root/books/items",
         "title": "Items",
         "type": "object",
@@ -120,7 +120,6 @@
           }
         }
       }
-
     }
   }
 }
