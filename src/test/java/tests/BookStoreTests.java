@@ -3,6 +3,7 @@ package tests;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.response.Response;
 import models.AuthorisationResponse;
+import models.Books;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -11,6 +12,8 @@ import java.util.Map;
 import static filters.CustomLogFilter.customLogFilter;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.aeonbits.owner.util.Util.asString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
@@ -141,9 +144,29 @@ public class BookStoreTests {
                 .extract().as(AuthorisationResponse.class);
         assert(response.getStatus()).contains("Success");
         assert(response.getResult()).contains("User authorized successfully.");
+    }
 
-        //assert(response.getStatus()).contains("User authorized successfully.");
+    @Test
+    void booksModelTest(){
+        Books books =
+        given()
+                .log().uri()
+                .log().body()
+                .get("https://demoqa.com/BookStore/v1/Books")
+                .then()
+                .log().body()
+                .extract().as(Books.class);
+        //System.out.println(books);
+    }
 
-        //assert(response).contains("\"result\":\"User authorized successfully.\"");
+    @Test
+    void booksJsonSchemaTest(){
+                        given()
+                        .log().uri()
+                        .log().body()
+                        .get("https://demoqa.com/BookStore/v1/Books")
+                        .then()
+                        .log().body()
+                        .body(matchesJsonSchemaInClasspath("jsonSchemas/booklist_response.json"));
     }
 }
