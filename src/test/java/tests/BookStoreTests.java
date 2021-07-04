@@ -32,7 +32,7 @@ public class BookStoreTests {
                 .get("https://demoqa.com/BookStore/v1/Books")
                 .then()
                 .log().all()
-                .body("books", hasSize(greaterThan(0)));
+                 .body("books", hasSize(greaterThan(0)));
     }
 
     @Test
